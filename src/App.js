@@ -1,24 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import ProductListPage from "./pages/ProductListPage";
+import ProductEditPage from "./pages/ProductEditPage";
+import UserListPage from "./pages/UserListPage";
+import CategoryListPage from "./pages/CategogyListPage";
+import CategoryEditPage from "./pages/CategoryEditPage";
+import CategoryAddPage from "./pages/CategoryAddPage";
+import ProductAddPage from "./pages/ProductAddPage";
+import UserListDisabledPage from "./pages/UserListDisabledPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header></Header>
+      <main>
+        <Container className="py-3">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/admin/categorylist"
+              element={<CategoryListPage />}
+            ></Route>
+            <Route
+              path="/admin/category/add"
+              element={<CategoryAddPage />}
+            ></Route>
+            <Route
+              path="/admin/category/:_id/edit"
+              element={<CategoryEditPage />}
+            ></Route>
+            <Route
+              path="/admin/productlist"
+              element={<ProductListPage />}
+            ></Route>
+            <Route
+              path="/admin/product/add"
+              element={<ProductAddPage />}
+            ></Route>
+            <Route
+              path="/admin/product/:slug/edit"
+              element={<ProductEditPage />}
+            ></Route>
+            <Route path="/admin/userlist" element={<UserListPage />}></Route>
+            <Route
+              path="/admin/disabledusers"
+              element={<UserListDisabledPage />}
+            ></Route>
+          </Routes>
+        </Container>
+      </main>
+      <Footer></Footer>
+    </Router>
   );
 }
 
