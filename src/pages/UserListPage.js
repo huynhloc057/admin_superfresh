@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { disabledUser, getAllUsers } from "../actions/userAction";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import CheckConnection from "../HOC/CheckConnection";
 
 const UserListPage = () => {
   const dispatch = useDispatch();
@@ -21,10 +22,8 @@ const UserListPage = () => {
     }
     if (user && user.role === "admin") {
       dispatch(getAllUsers());
-    } else {
-      navigate("/login");
     }
-  }, [dispatch, navigate, user, successDelete]);
+  }, [dispatch, user, successDelete]);
   const deleteHandler = (_id) => {
     console.log(_id);
     if (window.confirm("Are you sure")) {
@@ -33,53 +32,55 @@ const UserListPage = () => {
   };
   return (
     <>
-      <h1>Quản lý danh sách người dùng</h1>
-      <Col className="text-right">
-        <Button
-          className="my-3"
-          onClick={() => navigate("/admin/disabledusers")}
-        >
-          <i class="fa-solid fa-user-slash"></i> Disabled Users
-        </Button>
-      </Col>
-      {loading ? (
-        <Loader></Loader>
-      ) : error ? (
-        <Message>{error}</Message>
-      ) : (
-        <Table striped bordered hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ROLE</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users?.map((user) => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>
-                  <a href={`mailto:${user.email}`}>{user.email}</a>
-                </td>
-                <td>{user.role}</td>
-                <td>
-                  <Button
-                    variant="danger"
-                    className="btn-sm"
-                    onClick={() => deleteHandler(user._id)}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </Button>
-                </td>
+      <CheckConnection>
+        <h1>Quản lý danh sách người dùng</h1>
+        <Col className="text-right">
+          <Button
+            className="my-3"
+            onClick={() => navigate("/admin/disabledusers")}
+          >
+            <i class="fa-solid fa-user-slash"></i> Disabled Users
+          </Button>
+        </Col>
+        {loading ? (
+          <Loader></Loader>
+        ) : error ? (
+          <Message>{error}</Message>
+        ) : (
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>EMAIL</th>
+                <th>ROLE</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      )}
+            </thead>
+            <tbody>
+              {users?.map((user) => (
+                <tr key={user._id}>
+                  <td>{user._id}</td>
+                  <td>{user.name}</td>
+                  <td>
+                    <a href={`mailto:${user.email}`}>{user.email}</a>
+                  </td>
+                  <td>{user.role}</td>
+                  <td>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => deleteHandler(user._id)}
+                    >
+                      <i className="fas fa-trash"></i>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </CheckConnection>
     </>
   );
 };

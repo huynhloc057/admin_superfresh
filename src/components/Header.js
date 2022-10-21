@@ -13,19 +13,13 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          {/* <LinkContainer to="/"> */}
           <Navbar.Brand href="/">Super Fresh</Navbar.Brand>
-          {/* </LinkContainer> */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {/* {/*  */}
               {user ? (
                 <>
                   <NavDropdown title={user.name} id="username">
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
-                    </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
                       Logout
                     </NavDropdown.Item>
@@ -43,9 +37,9 @@ const Header = () => {
                     <LinkContainer to="/admin/categorylist">
                       <NavDropdown.Item>Categories</NavDropdown.Item>
                     </LinkContainer>
-                    {/* <LinkContainer to="/admin/orderlist"> */}
-                    <NavDropdown.Item>Oders</NavDropdown.Item>
-                    {/* </LinkContainer> */}
+                    <LinkContainer to="/admin/orderlist">
+                      <NavDropdown.Item>Oders</NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown>
                 </>
               ) : (

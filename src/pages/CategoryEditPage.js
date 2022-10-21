@@ -6,21 +6,23 @@ import { getCategoryDetail } from "../actions/categoryAction";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import CheckConnection from "../HOC/CheckConnection";
 
 const CategoryEditPage = () => {
   const { _id } = useParams();
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { categoryDetail } = useSelector((state) => state.category);
+  const { categoryDetail, loading, error } = useSelector(
+    (state) => state.category
+  );
 
   const [name, setName] = useState(categoryDetail?.category?.name);
   const [image, setImage] = useState(categoryDetail?.category?.image);
   useEffect(() => {
     if (
-      !categoryDetail?.category.name ||
-      categoryDetail?.category._id !== _id
+      !categoryDetail?.category?.name ||
+      categoryDetail?.category?._id !== _id
     ) {
       dispatch(getCategoryDetail(_id));
     } else {
@@ -33,45 +35,45 @@ const CategoryEditPage = () => {
   };
   return (
     <>
-      <Link to="/admin/categorylist" className="btn btn-light my-3">
-        Quay lại
-      </Link>
-      <FormContainer>
-        <h1>Cập nhật danh mục sản phẩm</h1>
-        {/* {loadingUpdate && <Loader />}{" "} */}
-        {/* {errorUpdate && <Message>{errorUpdate}</Message>} */}
-        {/* {loading ? (
-          <Loader></Loader>
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : ( */}
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId="username">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+      <CheckConnection>
+        <Link to="/admin/categorylist" className="btn btn-light my-3">
+          Quay lại
+        </Link>
+        <FormContainer>
+          <h1>Cập nhật danh mục sản phẩm</h1>
+          {loading ? (
+            <Loader></Loader>
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="username">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-          <Form.Group controlId="image">
-            <Form.Label>Image</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter image url"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+              <Form.Group controlId="image">
+                <Form.Label>Image</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter image url"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-          <Button type="submit" variant="primary" className="mt-3">
-            Cập nhật
-          </Button>
-        </Form>
-        {/* )} */}
-      </FormContainer>
+              <Button type="submit" variant="primary" className="mt-3">
+                Cập nhật
+              </Button>
+            </Form>
+          )}
+        </FormContainer>
+      </CheckConnection>
     </>
   );
 };

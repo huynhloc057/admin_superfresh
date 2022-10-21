@@ -1,7 +1,12 @@
 import React from "react";
+import CheckConnection from "../HOC/CheckConnection";
 
 const HomePage = () => {
-  return <div>Day la Home Screen</div>;
+  return (
+    <CheckConnection>
+      <div>Day la Home Screen</div>;
+    </CheckConnection>
+  );
 };
 
 export default HomePage;

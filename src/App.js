@@ -12,6 +12,8 @@ import CategoryEditPage from "./pages/CategoryEditPage";
 import CategoryAddPage from "./pages/CategoryAddPage";
 import ProductAddPage from "./pages/ProductAddPage";
 import UserListDisabledPage from "./pages/UserListDisabledPage";
+import OrderListPage from "./pages/OrderListPage";
+import PrivateRouter from "./HOC/PrivateRouter";
 
 function App() {
   return (
@@ -22,35 +24,41 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/admin/categorylist"
-              element={<CategoryListPage />}
-            ></Route>
-            <Route
-              path="/admin/category/add"
-              element={<CategoryAddPage />}
-            ></Route>
-            <Route
-              path="/admin/category/:_id/edit"
-              element={<CategoryEditPage />}
-            ></Route>
-            <Route
-              path="/admin/productlist"
-              element={<ProductListPage />}
-            ></Route>
-            <Route
-              path="/admin/product/add"
-              element={<ProductAddPage />}
-            ></Route>
-            <Route
-              path="/admin/product/:slug/edit"
-              element={<ProductEditPage />}
-            ></Route>
-            <Route path="/admin/userlist" element={<UserListPage />}></Route>
-            <Route
-              path="/admin/disabledusers"
-              element={<UserListDisabledPage />}
-            ></Route>
+            <Route element={<PrivateRouter />}>
+              <Route
+                path="/admin/categorylist"
+                element={<CategoryListPage />}
+              ></Route>
+              <Route
+                path="/admin/category/add"
+                element={<CategoryAddPage />}
+              ></Route>
+              <Route
+                path="/admin/category/:_id/edit"
+                element={<CategoryEditPage />}
+              ></Route>
+              <Route
+                path="/admin/productlist"
+                element={<ProductListPage />}
+              ></Route>
+              <Route
+                path="/admin/product/add"
+                element={<ProductAddPage />}
+              ></Route>
+              <Route
+                path="/admin/product/:slug/edit"
+                element={<ProductEditPage />}
+              ></Route>
+              <Route path="/admin/userlist" element={<UserListPage />}></Route>
+              <Route
+                path="/admin/disabledusers"
+                element={<UserListDisabledPage />}
+              ></Route>
+              <Route
+                path="/admin/orderlist"
+                element={<OrderListPage />}
+              ></Route>
+            </Route>
           </Routes>
         </Container>
       </main>

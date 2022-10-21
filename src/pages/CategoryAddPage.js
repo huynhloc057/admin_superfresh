@@ -8,6 +8,7 @@ import { categoryConstants } from "../actions/constant";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import CheckConnection from "../HOC/CheckConnection";
 
 const CategoryAddPage = () => {
   const [name, setName] = useState("");
@@ -38,45 +39,45 @@ const CategoryAddPage = () => {
 
   return (
     <>
-      <Link to="/admin/categorylist" className="btn btn-light my-3">
-        Quay lại
-      </Link>
-      <FormContainer>
-        <h1>Thêm danh mục sản phẩm</h1>
-        {/* {loadingUpdate && <Loader />}{" "} */}
-        {/* {errorUpdate && <Message>{errorUpdate}</Message>} */}
-        {loading ? (
-          <Loader></Loader>
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="username">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+      <CheckConnection>
+        <Link to="/admin/categorylist" className="btn btn-light my-3">
+          Quay lại
+        </Link>
+        <FormContainer>
+          <h1>Thêm danh mục sản phẩm</h1>
+          {loading ? (
+            <Loader></Loader>
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="username">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="image">
-              <Form.Label>Image</Form.Label>
-              <Form.Control
-                type="file"
-                placeholder="Enter image url"
-                accept="image/x-png,image/gif,image/jpeg"
-                onChange={(e) => setImage(e.target.files[0])}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId="image">
+                <Form.Label>Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  placeholder="Enter image url"
+                  accept="image/x-png,image/gif,image/jpeg"
+                  onChange={(e) => setImage(e.target.files[0])}
+                ></Form.Control>
+              </Form.Group>
 
-            <Button type="submit" variant="primary" className="mt-3">
-              Cập nhật
-            </Button>
-          </Form>
-        )}
-      </FormContainer>
+              <Button type="submit" variant="primary" className="mt-3">
+                Cập nhật
+              </Button>
+            </Form>
+          )}
+        </FormContainer>
+      </CheckConnection>
     </>
   );
 };

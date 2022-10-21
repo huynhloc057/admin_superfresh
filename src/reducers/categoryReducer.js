@@ -10,10 +10,24 @@ const initState = {
 
 export const categoryReducer = (state = initState, action) => {
   switch (action.type) {
+    case categoryConstants.GET_ALL_CATEGORIES_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      return state;
     case categoryConstants.GET_ALL_CATEGORIES_SUCCESS:
       state = {
         ...state,
         categories: action.payload.categories,
+        loading: false,
+      };
+      return state;
+    case categoryConstants.GET_ALL_CATEGORIES_FAILURE:
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
       return state;
     case categoryConstants.GET_CATEGORY_BY_ID_SUCCESS:

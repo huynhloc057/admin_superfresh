@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { productConstants } from "../actions/constant";
 import { toast } from "react-toastify";
+import CheckConnection from "../HOC/CheckConnection";
 
 const ProductAddPage = () => {
   const [name, setName] = useState("");
@@ -52,97 +53,99 @@ const ProductAddPage = () => {
   console.log(image);
   return (
     <>
-      <Link to="/admin/productlist" className="btn btn-light my-3">
-        Quay lại
-      </Link>
-      <FormContainer>
-        <h1>Thêm sản phẩm</h1>
-        {loading ? (
-          <Loader></Loader>
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="username">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+      <CheckConnection>
+        <Link to="/admin/productlist" className="btn btn-light my-3">
+          Quay lại
+        </Link>
+        <FormContainer>
+          <h1>Thêm sản phẩm</h1>
+          {loading ? (
+            <Loader></Loader>
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId="username">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="email" className="my-3">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId="email" className="my-3">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="image" className="my-3">
-              <input
-                type="file"
-                name="productPicture"
-                accept="image/x-png,image/gif,image/jpeg"
-                // onChange={(e) => setImage([...image, e.target.files[0]])}
-                onChange={(e) => setImage([...image, e.target.files[0]])}
-              />
-              {image && image.length > 0 && (
-                <div id="createProductFormImage" className="truncate">
-                  {image.map((item, index) => (
-                    <span key={index}>
-                      {item.name} <br></br>
-                    </span>
+              <Form.Group controlId="image" className="my-3">
+                <input
+                  type="file"
+                  name="productPicture"
+                  accept="image/x-png,image/gif,image/jpeg"
+                  // onChange={(e) => setImage([...image, e.target.files[0]])}
+                  onChange={(e) => setImage([...image, e.target.files[0]])}
+                />
+                {image && image.length > 0 && (
+                  <div id="createProductFormImage" className="truncate">
+                    {image.map((item, index) => (
+                      <span key={index}>
+                        {item.name} <br></br>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </Form.Group>
+
+              <Form.Group controlId="category" className="my-3">
+                <select
+                  className="form-control"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option>select category</option>
+                  {categories.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
                   ))}
-                </div>
-              )}
-            </Form.Group>
+                </select>
+              </Form.Group>
 
-            <Form.Group controlId="category" className="my-3">
-              <select
-                className="form-control"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option>select category</option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </Form.Group>
+              <Form.Group controlId="countInStock" className="my-3">
+                <Form.Label>Quantity</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter Quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="countInStock" className="my-3">
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter Quantity"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId="description" className="my-3">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="description" className="my-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-
-            <Button type="submit" variant="primary">
-              Thêm
-            </Button>
-          </Form>
-        )}
-      </FormContainer>
+              <Button type="submit" variant="primary">
+                Thêm
+              </Button>
+            </Form>
+          )}
+        </FormContainer>
+      </CheckConnection>
     </>
   );
 };

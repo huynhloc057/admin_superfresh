@@ -2,8 +2,7 @@ import { authConstants } from "../actions/constant";
 
 const initState = {
   user: null,
-  authenticate: false,
-  authenticating: false,
+
   loading: false,
   error: null,
   accessToken: null,
@@ -16,7 +15,7 @@ const authReducer = (state = initState, action) => {
     case authConstants.LOGIN_REQUEST:
       state = {
         ...state,
-        authenticating: true,
+        loading: true,
       };
       return state;
     case authConstants.LOGIN_SUCCESS:
@@ -25,15 +24,14 @@ const authReducer = (state = initState, action) => {
         user: action.payload.user,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
-        authenticate: true,
-        authenticating: false,
+        loading: false,
         error: null,
       };
       return state;
     case authConstants.LOGIN_FAILURE:
       state = {
         ...state,
-        authenticating: false,
+        loading: false,
         error: action.payload,
       };
       return state;
