@@ -12,7 +12,9 @@ import CheckConnection from "../HOC/CheckConnection";
 
 const CategoryAddPage = () => {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
+
   const { success, loading, error } = useSelector((state) => state.category);
 
   const dispatch = useDispatch();
@@ -23,10 +25,29 @@ const CategoryAddPage = () => {
     const form = new FormData();
 
     form.append("name", name);
-    form.append("categoryImage", image);
+    for (let pic of image) {
+      form.append("categoryImage", pic);
+    }
     dispatch(addCategory(form));
-    setName("");
   };
+  const updateCategoryImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    setImage([...files]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result]);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
   useEffect(() => {
     if (success) {
       toast.success("Add Category success");
@@ -65,10 +86,17 @@ const CategoryAddPage = () => {
                 <Form.Label>Image</Form.Label>
                 <Form.Control
                   type="file"
-                  placeholder="Enter image url"
+                  className="mb-3"
                   accept="image/x-png,image/gif,image/jpeg"
-                  onChange={(e) => setImage(e.target.files[0])}
+                  onChange={updateCategoryImagesChange}
+                  multiple
                 ></Form.Control>
+
+                <div id="createProductFormImage">
+                  {imagesPreview.map((image, index) => (
+                    <img key={index} src={image} alt="Category Preview" />
+                  ))}
+                </div>
               </Form.Group>
 
               <Button type="submit" variant="primary" className="mt-3">

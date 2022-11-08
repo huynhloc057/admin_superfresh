@@ -14,6 +14,8 @@ import ProductAddPage from "./pages/ProductAddPage";
 import UserListDisabledPage from "./pages/UserListDisabledPage";
 import OrderListPage from "./pages/OrderListPage";
 import PrivateRouter from "./HOC/PrivateRouter";
+import ProductListDisablePage from "./pages/ProductListDisablePage";
+import CategogyListDisablePage from "./pages/CategogyListDisablePage";
 
 function App() {
   return (
@@ -29,6 +31,12 @@ function App() {
                 path="/admin/categorylist"
                 element={<CategoryListPage />}
               ></Route>
+
+              <Route
+                path="/admin/categorydisablelist"
+                element={<CategogyListDisablePage />}
+              ></Route>
+
               <Route
                 path="/admin/category/add"
                 element={<CategoryAddPage />}
@@ -44,6 +52,10 @@ function App() {
               <Route
                 path="/admin/product/add"
                 element={<ProductAddPage />}
+              ></Route>
+              <Route
+                path="/admin/product/disable"
+                element={<ProductListDisablePage />}
               ></Route>
               <Route
                 path="/admin/product/:slug/edit"

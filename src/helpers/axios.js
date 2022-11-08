@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (req) => {
-    const token = window.localStorage.getItem("accessToken");
+    const token = window.localStorage.getItem("token");
     if (token) {
       req.headers.Authorization = `Bearer ${token}`;
     }
@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
       if (newAccessToken) {
         config.headers.Authorization = `Bearer ${newAccessToken}`;
         //step 2 : store in local storage
-        await window.localStorage.setItem("accessToken", newAccessToken);
+        await window.localStorage.setItem("token", newAccessToken);
         //step 3 : resend the request
         return axiosInstance(config);
       } else {

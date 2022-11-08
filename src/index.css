@@ -18,3 +18,16 @@ code {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+
+#createProductFormImage {
+  width: 100%;
+  overflow: auto;
+}
+
+#createProductFormImage > img {
+  width: 10vmax;
+  margin: 0 0.5vmax;
+  object-fit: cover;
+}

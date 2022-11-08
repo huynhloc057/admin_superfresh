@@ -1,58 +1,42 @@
 import React, { useEffect } from "react";
 import { Button, Table, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { productConstants } from "../actions/constant";
-import { deleteProduct, getAllProducts } from "../actions/productAction";
+import { enableProduct, getAllProductsDisable } from "../actions/productAction";
 
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import CheckConnection from "../HOC/CheckConnection";
 
-const ProductListPage = () => {
+const ProductListDisablePage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { products, loading, error, successDelete } = useSelector(
+  const { products, loading, error, successEnable } = useSelector(
     (state) => state.product
   );
 
   useEffect(() => {
-    if (successDelete) {
-      toast.error("Disabled product success !");
+    if (successEnable) {
+      toast.success("Enable product successfully!");
       dispatch({ type: productConstants.ADD_PRODUCT_RESET });
     }
-    dispatch(getAllProducts());
-  }, [dispatch, successDelete]);
-  const createProductHandler = () => {
-    navigate("/admin/product/add");
-  };
-  const deleteHandler = (productId) => {
+    dispatch(getAllProductsDisable());
+  }, [dispatch, successEnable]);
+  const enableHandler = (productId) => {
     if (window.confirm("Are you sure")) {
-      dispatch(deleteProduct(productId));
+      dispatch(enableProduct(productId));
     }
   };
   return (
     <>
       <CheckConnection>
+        <Link to="/admin/productlist" className="btn btn-light my-3">
+          Quay lại
+        </Link>
         <Row className="align-items-center">
           <Col>
             <h1>Products</h1>
-          </Col>
-          <Col className="text-right">
-            <Button className="my-3" onClick={createProductHandler}>
-              <i className="fas fa-plus"></i> Create Product
-            </Button>
-          </Col>
-
-          <Col className="text-right">
-            <Button
-              className="my-3"
-              onClick={() => navigate("/admin/product/disable")}
-            >
-              <i class="fa-solid fa-user-slash"></i> Disabled Products
-            </Button>
           </Col>
         </Row>
 
@@ -80,17 +64,12 @@ const ProductListPage = () => {
                     <td>{product.price}</td>
                     <td>{product.category.name}</td>
                     <td>
-                      <LinkContainer to={`/admin/product/${product.slug}/edit`}>
-                        <Button variant="light" className="btn-sm">
-                          <i className="fas fa-edit"></i>
-                        </Button>
-                      </LinkContainer>
                       <Button
-                        variant="danger"
+                        variant="success"
                         className="btn-sm"
-                        onClick={() => deleteHandler(product._id)}
+                        onClick={() => enableHandler(product._id)}
                       >
-                        <i className="fas fa-trash"></i>
+                        <i class="fa-solid fa-check"></i>
                       </Button>
                     </td>
                   </tr>
@@ -105,4 +84,4 @@ const ProductListPage = () => {
   );
 };
 
-export default ProductListPage;
+export default ProductListDisablePage;

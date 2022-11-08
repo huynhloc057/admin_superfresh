@@ -14,11 +14,12 @@ import CheckConnection from "../HOC/CheckConnection";
 const ProductAddPage = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState("");
   const { categories } = useSelector((state) => state.category);
+  const [images, setImages] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,14 +44,31 @@ const ProductAddPage = () => {
     form.append("description", description);
     form.append("category", category);
 
-    for (let pic of image) {
-      form.append("productPicture", pic);
+    for (let pic of images) {
+      form.append("productPictures", pic);
     }
 
     dispatch(addProduct(form));
   };
 
-  console.log(image);
+  const updateProductImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    setImages([...files]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result]);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
   return (
     <>
       <CheckConnection>
@@ -90,18 +108,15 @@ const ProductAddPage = () => {
                   type="file"
                   name="productPicture"
                   accept="image/x-png,image/gif,image/jpeg"
-                  // onChange={(e) => setImage([...image, e.target.files[0]])}
-                  onChange={(e) => setImage([...image, e.target.files[0]])}
+                  onChange={updateProductImagesChange}
+                  multiple
                 />
-                {image && image.length > 0 && (
-                  <div id="createProductFormImage" className="truncate">
-                    {image.map((item, index) => (
-                      <span key={index}>
-                        {item.name} <br></br>
-                      </span>
-                    ))}
-                  </div>
-                )}
+
+                <div id="createProductFormImage">
+                  {imagesPreview.map((image, index) => (
+                    <img key={index} src={image} alt="Product Preview" />
+                  ))}
+                </div>
               </Form.Group>
 
               <Form.Group controlId="category" className="my-3">

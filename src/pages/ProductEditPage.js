@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { getAllCategory } from "../actions/categoryAction";
-import { getProductBySlug } from "../actions/productAction";
+import { productConstants } from "../actions/constant";
+import { getProductBySlug, updateProduct } from "../actions/productAction";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -12,35 +14,76 @@ import CheckConnection from "../HOC/CheckConnection";
 const ProductEditPage = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
+  const [images, setImages] = useState([]);
   const [category, setCategory] = useState("");
-  const [quantity, SetQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState("");
+  const [oldImages, setOldImages] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
 
   const { slug } = useParams();
 
   const dispatch = useDispatch();
 
-  const { loading, error, product } = useSelector((state) => state.product);
+  const { loading, error, product, success } = useSelector(
+    (state) => state.product
+  );
   const { categories } = useSelector((state) => state.category);
 
   useEffect(() => {
+    if (success) {
+      setImagesPreview([]);
+      toast.success("Update product success !");
+      dispatch({ type: productConstants.ADD_PRODUCT_RESET });
+    }
     dispatch(getAllCategory());
     if (!product?.name || product?.slug !== slug) {
       dispatch(getProductBySlug(slug));
     } else {
       setName(product.name);
       setPrice(product.price);
-      setImage(product.image);
-      setCategory(product.category);
-      SetQuantity(product.quantity);
+      setCategory(product.category._id);
+      setQuantity(product.quantity);
       setDescription(product.description);
+      setOldImages(product.productPictures);
     }
-  }, [dispatch, slug, product]);
+  }, [dispatch, slug, product, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const form = new FormData();
+    form.append("name", name);
+    form.append("price", price);
+    form.append("quantity", quantity);
+    form.append("description", description);
+    form.append("category", category);
+
+    for (let pic of images) {
+      form.append("productPictures", pic);
+    }
+    dispatch(updateProduct(slug, form));
   };
+
+  const updateProductImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    setImages([...files]);
+    setImagesPreview([]);
+    setOldImages([]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result]);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+  console.log(category);
 
   return (
     <>
@@ -80,20 +123,36 @@ const ProductEditPage = () => {
               <Form.Group controlId="image">
                 <Form.Label>Image</Form.Label>
                 <Form.Control
-                  type="text"
-                  placeholder="Enter image url"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
+                  type="file"
+                  onChange={updateProductImagesChange}
+                  multiple
+                  className="mb-3"
                 ></Form.Control>
+                <div id="createProductFormImage">
+                  {oldImages &&
+                    oldImages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image.img}
+                        alt="Old Product Preview"
+                      />
+                    ))}
+                </div>
+
+                <div id="createProductFormImage">
+                  {imagesPreview.map((image, index) => (
+                    <img key={index} src={image} alt="Product Preview" />
+                  ))}
+                </div>
               </Form.Group>
 
               <Form.Group controlId="category" className="my-3">
                 <select
                   className="form-control"
-                  value={category}
+                  value={category._id}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  <option>select category</option>
+                  <option>{product?.category?.name}</option>
                   {categories.map((category) => (
                     <option key={category._id} value={category._id}>
                       {category.name}
@@ -108,7 +167,7 @@ const ProductEditPage = () => {
                   type="number"
                   placeholder="Enter Quantity"
                   value={quantity}
-                  onChange={(e) => SetQuantity(e.target.value)}
+                  onChange={(e) => setQuantity(e.target.value)}
                 ></Form.Control>
               </Form.Group>
 

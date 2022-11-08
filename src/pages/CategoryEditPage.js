@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { getCategoryDetail } from "../actions/categoryAction";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getCategoryDetail, updateCategory } from "../actions/categoryAction";
+import { categoryConstants } from "../actions/constant";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -13,13 +15,17 @@ const CategoryEditPage = () => {
 
   const dispatch = useDispatch();
 
-  const { categoryDetail, loading, error } = useSelector(
+  const { categoryDetail, loading, error, success } = useSelector(
     (state) => state.category
   );
 
-  const [name, setName] = useState(categoryDetail?.category?.name);
-  const [image, setImage] = useState(categoryDetail?.category?.image);
+  const [name, setName] = useState("");
+  const [image, setImage] = useState([]);
   useEffect(() => {
+    if (success) {
+      toast.success("Update category successfully!");
+      dispatch({ type: categoryConstants.DELETE_CATEGORIES_RESET });
+    }
     if (
       !categoryDetail?.category?.name ||
       categoryDetail?.category?._id !== _id
@@ -27,12 +33,15 @@ const CategoryEditPage = () => {
       dispatch(getCategoryDetail(_id));
     } else {
       setName(categoryDetail?.category.name);
-      setImage(categoryDetail?.category.image);
+      setImage(categoryDetail?.category.categoryImage);
     }
-  }, [_id, dispatch, categoryDetail]);
+  }, [_id, dispatch, categoryDetail, success]);
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(updateCategory(_id, name));
   };
+
+  console.log(image);
   return (
     <>
       <CheckConnection>
@@ -59,12 +68,11 @@ const CategoryEditPage = () => {
 
               <Form.Group controlId="image">
                 <Form.Label>Image</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter image url"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                ></Form.Control>
+                <div id="createProductFormImage">
+                  {image.map((item, index) => (
+                    <img key={index} src={item.img} alt="Category Preview" />
+                  ))}
+                </div>
               </Form.Group>
 
               <Button type="submit" variant="primary" className="mt-3">

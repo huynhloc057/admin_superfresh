@@ -20,6 +20,25 @@ export const getAllProducts = () => {
   };
 };
 
+export const getAllProductsDisable = () => {
+  return async (dispatch) => {
+    dispatch({ type: productConstants.GET_ALL_PRODUCTS_REQUEST });
+    const res = await axios.post(`/product/getProductDisable`);
+    if (res.status === 200) {
+      const products = res.data;
+      dispatch({
+        type: productConstants.GET_ALL_PRODUCTS_SUCCESS,
+        payload: products,
+      });
+    } else {
+      dispatch({
+        type: productConstants.GET_ALL_PRODUCTS_FAILURE,
+        payload: { error: res.data.error },
+      });
+    }
+  };
+};
+
 export const getProductBySlug = (slug) => {
   return async (dispatch) => {
     try {
@@ -58,6 +77,109 @@ export const addProduct = (form) => {
         const { error } = res.data;
         dispatch({
           type: productConstants.ADD_PRODUCT_FAILURE,
+          payload: { error },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateProduct = (slug, form) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: productConstants.UPDATE_PRODUCT_REQUEST });
+      const res = await axios.post(`/product/update/${slug}`, form);
+      if (res.status === 200) {
+        dispatch({
+          type: productConstants.UPDATE_PRODUCT_SUCCESS,
+        });
+        dispatch(getProductBySlug(slug));
+      } else {
+        const { error } = res.data;
+        dispatch({
+          type: productConstants.UPDATE_PRODUCT_FAILURE,
+          payload: { error },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteProduct = (productId) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: productConstants.DELETE_PRODUCT_BY_ID_REQUEST });
+      const res = await axios.post(`/product/deleteProductById`, { productId });
+      if (res.status === 202) {
+        dispatch({ type: productConstants.DELETE_PRODUCT_BY_ID_SUCCESS });
+      } else {
+        const { error } = res.data;
+        dispatch({
+          type: productConstants.DELETE_PRODUCT_BY_ID_FAILURE,
+          payload: { error },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteProductByCate = (_id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: productConstants.DELETE_PRODUCT_BY_ID_REQUEST });
+      const res = await axios.post(`/product/deleteByCategory`, _id);
+      if (res.status === 202) {
+        dispatch({ type: productConstants.DELETE_PRODUCT_BY_ID_SUCCESS });
+      } else {
+        const { error } = res.data;
+        dispatch({
+          type: productConstants.DELETE_PRODUCT_BY_ID_FAILURE,
+          payload: { error },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const enableProduct = (productId) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: productConstants.ENABLE_PRODUCT_REQUEST });
+      const res = await axios.post(`/product/enableProductById`, { productId });
+      if (res.status === 202) {
+        dispatch({ type: productConstants.ENABLE_PRODUCT_SUCCESS });
+      } else {
+        const { error } = res.data;
+        dispatch({
+          type: productConstants.ENABLE_PRODUCT_FAILURE,
+          payload: { error },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const enableProductByCate = (_id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: productConstants.ENABLE_PRODUCT_REQUEST });
+      const res = await axios.post(`/product/enableByCategory`, _id);
+      if (res.status === 202) {
+        dispatch({ type: productConstants.ENABLE_PRODUCT_SUCCESS });
+      } else {
+        const { error } = res.data;
+        dispatch({
+          type: productConstants.ENABLE_PRODUCT_FAILURE,
           payload: { error },
         });
       }
