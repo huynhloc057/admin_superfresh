@@ -3,6 +3,7 @@ import { Button, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { userConstants } from "../actions/constant";
 import { disabledUser, getAllUsers } from "../actions/userAction";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -19,6 +20,7 @@ const UserListPage = () => {
   useEffect(() => {
     if (successDelete) {
       toast.error("Disabled user success !");
+      dispatch({ type: userConstants.UN_DELETE_USER_RESET });
     }
     if (user && user.role === "admin") {
       dispatch(getAllUsers());
@@ -33,7 +35,7 @@ const UserListPage = () => {
   return (
     <>
       <CheckConnection>
-        <h1>Quản lý danh sách người dùng</h1>
+        <h1>Users</h1>
         <Col className="text-right">
           <Button
             className="my-3"

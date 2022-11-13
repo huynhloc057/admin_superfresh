@@ -68,6 +68,7 @@ const ProductAddPage = () => {
       reader.readAsDataURL(file);
     });
   };
+  console.log("images", images);
 
   return (
     <>
@@ -86,6 +87,7 @@ const ProductAddPage = () => {
               <Form.Group controlId="username">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
+                  required
                   type="text"
                   placeholder="Enter name"
                   value={name}
@@ -96,6 +98,7 @@ const ProductAddPage = () => {
               <Form.Group controlId="email" className="my-3">
                 <Form.Label>Price</Form.Label>
                 <Form.Control
+                  required
                   type="number"
                   placeholder="Enter price"
                   value={price}
@@ -103,14 +106,15 @@ const ProductAddPage = () => {
                 ></Form.Control>
               </Form.Group>
 
-              <Form.Group controlId="image" className="my-3">
-                <input
+              <Form.Group controlId="images" className="my-3">
+                <Form.Control
+                  required
                   type="file"
-                  name="productPicture"
+                  className="mb-3"
                   accept="image/x-png,image/gif,image/jpeg"
                   onChange={updateProductImagesChange}
                   multiple
-                />
+                ></Form.Control>
 
                 <div id="createProductFormImage">
                   {imagesPreview.map((image, index) => (
@@ -137,6 +141,7 @@ const ProductAddPage = () => {
               <Form.Group controlId="countInStock" className="my-3">
                 <Form.Label>Quantity</Form.Label>
                 <Form.Control
+                  required
                   type="number"
                   placeholder="Enter Quantity"
                   value={quantity}

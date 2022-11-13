@@ -35,6 +35,9 @@ const authReducer = (state = initState, action) => {
         error: action.payload,
       };
       return state;
+    case authConstants.LOGIN_RESET:
+      state = { ...initState };
+      return state;
     case authConstants.LOGOUT_REQUEST:
       state = {
         ...state,

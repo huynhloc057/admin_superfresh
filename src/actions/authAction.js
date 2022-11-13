@@ -7,15 +7,15 @@ export const login = (user) => {
       dispatch({ type: authConstants.LOGIN_REQUEST });
       const res = await axios.post(`/auth/signin`, { ...user });
       if (res.status === 200) {
-        const { token, refreshToken, user } = res.data;
+        const { accessToken, refreshToken, user } = res.data;
         if (user.role === "admin") {
           localStorage.setItem("user", JSON.stringify(user));
-          localStorage.setItem("token", token);
+          localStorage.setItem("token", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           dispatch({
             type: authConstants.LOGIN_SUCCESS,
             payload: {
-              token,
+              accessToken,
               refreshToken,
               user,
             },

@@ -20,7 +20,6 @@ const CategoryEditPage = () => {
   );
 
   const [name, setName] = useState("");
-  const [image, setImage] = useState([]);
   useEffect(() => {
     if (success) {
       toast.success("Update category successfully!");
@@ -33,7 +32,6 @@ const CategoryEditPage = () => {
       dispatch(getCategoryDetail(_id));
     } else {
       setName(categoryDetail?.category.name);
-      setImage(categoryDetail?.category.categoryImage);
     }
   }, [_id, dispatch, categoryDetail, success]);
   const submitHandler = (e) => {
@@ -41,7 +39,6 @@ const CategoryEditPage = () => {
     dispatch(updateCategory(_id, name));
   };
 
-  console.log(image);
   return (
     <>
       <CheckConnection>
@@ -59,20 +56,12 @@ const CategoryEditPage = () => {
               <Form.Group controlId="username">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
+                  required
                   type="text"
                   placeholder="Enter name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 ></Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="image">
-                <Form.Label>Image</Form.Label>
-                <div id="createProductFormImage">
-                  {image.map((item, index) => (
-                    <img key={index} src={item.img} alt="Category Preview" />
-                  ))}
-                </div>
               </Form.Group>
 
               <Button type="submit" variant="primary" className="mt-3">

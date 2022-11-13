@@ -1,0 +1,10 @@
+.task-bar> *:not(:last-child) {
+    margin-right: 10px; 
+}
+
+.task-bar_date{
+    display: flex;
+}
+.task-bar_date> *:not(:last-child) {
+    margin-right: 10px; 
+}

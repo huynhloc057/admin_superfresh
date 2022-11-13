@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { login } from "../actions/authAction";
+import { authConstants } from "../actions/constant";
 // import { login } from "../actions/userAction";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
@@ -25,7 +27,11 @@ const LoginPage = () => {
     if (user) {
       navigate("/");
     }
-  }, [user, navigate]);
+    if (error) {
+      toast.error(error);
+      dispatch({ type: authConstants.LOGIN_RESET });
+    }
+  }, [user, navigate, dispatch, error]);
 
   return (
     <CheckConnection>
@@ -41,6 +47,7 @@ const LoginPage = () => {
               <Form.Group controlId="email">
                 <Form.Label>Địa chỉ Email</Form.Label>
                 <Form.Control
+                  required
                   type="email"
                   placeholder="Enter email"
                   value={email}
@@ -51,6 +58,7 @@ const LoginPage = () => {
               <Form.Group controlId="password" className="my-3">
                 <Form.Label>Mật khẩu</Form.Label>
                 <Form.Control
+                  required
                   type="password"
                   placeholder="Enter password"
                   value={password}
@@ -62,12 +70,6 @@ const LoginPage = () => {
                 Đăng nhập
               </Button>
             </Form>
-
-            <Row className="py-3">
-              <Col>
-                Nếu chưa có tài khoản ? <Link to={"/register"}>Đăng ký</Link>
-              </Col>
-            </Row>
           </>
         )}
       </FormContainer>

@@ -12,10 +12,12 @@ import CategoryEditPage from "./pages/CategoryEditPage";
 import CategoryAddPage from "./pages/CategoryAddPage";
 import ProductAddPage from "./pages/ProductAddPage";
 import UserListDisabledPage from "./pages/UserListDisabledPage";
-import OrderListPage from "./pages/OrderListPage";
 import PrivateRouter from "./HOC/PrivateRouter";
 import ProductListDisablePage from "./pages/ProductListDisablePage";
 import CategogyListDisablePage from "./pages/CategogyListDisablePage";
+import Order from "./pages/Order";
+import PageNotFound from "./pages/PageNotFound";
+import Statistic from "./pages/RevenuePage";
 
 function App() {
   return (
@@ -66,10 +68,9 @@ function App() {
                 path="/admin/disabledusers"
                 element={<UserListDisabledPage />}
               ></Route>
-              <Route
-                path="/admin/orderlist"
-                element={<OrderListPage />}
-              ></Route>
+              <Route path="/admin/orderlist" element={<Order />}></Route>
+              <Route path="/admin/revenue" element={<Statistic />}></Route>
+              <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
             </Route>
           </Routes>
         </Container>

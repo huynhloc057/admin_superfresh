@@ -36,7 +36,7 @@ const ProductListDisablePage = () => {
         </Link>
         <Row className="align-items-center">
           <Col>
-            <h1>Products</h1>
+            <h1>Disabled Products</h1>
           </Col>
         </Row>
 

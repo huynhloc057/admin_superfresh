@@ -12,7 +12,7 @@ import CheckConnection from "../HOC/CheckConnection";
 
 const CategoryAddPage = () => {
   const [name, setName] = useState("");
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const { success, loading, error } = useSelector((state) => state.category);
@@ -25,7 +25,7 @@ const CategoryAddPage = () => {
     const form = new FormData();
 
     form.append("name", name);
-    for (let pic of image) {
+    for (let pic of images) {
       form.append("categoryImage", pic);
     }
     dispatch(addCategory(form));
@@ -33,7 +33,7 @@ const CategoryAddPage = () => {
   const updateCategoryImagesChange = (e) => {
     const files = Array.from(e.target.files);
 
-    setImage([...files]);
+    setImages([...files]);
 
     files.forEach((file) => {
       const reader = new FileReader();
@@ -47,6 +47,7 @@ const CategoryAddPage = () => {
       reader.readAsDataURL(file);
     });
   };
+  console.log("image", images);
 
   useEffect(() => {
     if (success) {
@@ -75,6 +76,7 @@ const CategoryAddPage = () => {
               <Form.Group controlId="username">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
+                  required
                   type="text"
                   placeholder="Enter name"
                   value={name}
@@ -82,9 +84,10 @@ const CategoryAddPage = () => {
                 ></Form.Control>
               </Form.Group>
 
-              <Form.Group controlId="image">
+              <Form.Group controlId="images">
                 <Form.Label>Image</Form.Label>
                 <Form.Control
+                  required
                   type="file"
                   className="mb-3"
                   accept="image/x-png,image/gif,image/jpeg"
