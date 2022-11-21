@@ -109,4 +109,7 @@ export const orderConstants = {
   UPDATE_CUSTOMER_ORDER_FAILURE: "UPDATE_CUSTOMER_ORDER_FAILURE",
 };
 
-export const API_URL = "https://apisuperfreshute.herokuapp.com/api";
+// export const API_URL = "https://apisuperfreshute.herokuapp.com/api";
+export const API_URL = "http://localhost:5000/api";
+
+// http://localhost:5000/api

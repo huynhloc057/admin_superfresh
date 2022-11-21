@@ -4,7 +4,7 @@ import { productConstants } from "./constant";
 export const getAllProducts = () => {
   return async (dispatch) => {
     dispatch({ type: productConstants.GET_ALL_PRODUCTS_REQUEST });
-    const res = await axios.post(`/product/getProducts`);
+    const res = await axios.get(`/product/getProducts`);
     if (res.status === 200) {
       const products = res.data;
       dispatch({
@@ -44,7 +44,7 @@ export const getProductBySlug = (slug) => {
     try {
       dispatch({ type: productConstants.GET_PRODUCT_BY_SLUG_REQUEST });
 
-      const res = await axios.post(`/product/${slug}`);
+      const res = await axios.get(`/product/${slug}`);
       if (res.status === 200) {
         const product = res.data;
         dispatch({
