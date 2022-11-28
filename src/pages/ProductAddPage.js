@@ -101,6 +101,7 @@ const ProductAddPage = () => {
                   required
                   type="number"
                   placeholder="Enter price"
+                  isInvalid={!(parseInt(price) > 0) && price.length}
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 ></Form.Control>
@@ -145,6 +146,7 @@ const ProductAddPage = () => {
                   type="number"
                   placeholder="Enter Quantity"
                   value={quantity}
+                  isInvalid={!(parseInt(quantity) > 0) && quantity.length}
                   onChange={(e) => setQuantity(e.target.value)}
                 ></Form.Control>
               </Form.Group>

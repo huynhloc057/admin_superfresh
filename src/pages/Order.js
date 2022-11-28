@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-// import "./style.scss";
 import { getCustomerOrders } from "../actions/orderAction";
 import OrderStatusCard from "../components/Order/OrderStatusCard";
 
