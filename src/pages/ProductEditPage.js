@@ -181,9 +181,7 @@ const ProductEditPage = () => {
                   type="number"
                   placeholder="Enter discount percent"
                   value={discountPercent}
-                  isInvalid={
-                    !(parseInt(discountPercent) > 0) && discountPercent.length
-                  }
+                  isInvalid={!(parseInt(discountPercent) > 0)}
                   onChange={(e) => setDiscountPercent(e.target.value)}
                 ></Form.Control>
               </Form.Group>
