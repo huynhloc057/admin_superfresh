@@ -25,9 +25,9 @@ const UserListDisabledPage = () => {
       dispatch(getAllDisabledUsers());
     }
   }, [dispatch, user, successActive]);
-  const undisabledHandler = (_id) => {
+  const undisabledHandler = (user) => {
     if (window.confirm("Are you sure")) {
-      dispatch(activeUser({ _id }));
+      dispatch(activeUser(user));
     }
   };
   return (
@@ -65,7 +65,7 @@ const UserListDisabledPage = () => {
                     <Button
                       variant="success"
                       className="btn-sm"
-                      onClick={() => undisabledHandler(user._id)}
+                      onClick={() => undisabledHandler(user)}
                     >
                       <i class="fa-solid fa-check"></i>
                     </Button>

@@ -36,12 +36,10 @@ export const getAllDisabledUsers = () => {
   };
 };
 
-export const activeUser = (_id) => {
-  console.log(_id);
-  debugger;
+export const activeUser = (user) => {
   return async (dispatch) => {
     dispatch({ type: userConstants.UN_DELETE_USER_REQUEST });
-    const res = await axios.post(`/user/enabled`, _id);
+    const res = await axios.post(`/user/enabled`, user);
     if (res.status === 202) {
       dispatch({
         type: userConstants.UN_DELETE_USER_SUCCESS,
@@ -55,10 +53,10 @@ export const activeUser = (_id) => {
   };
 };
 
-export const disabledUser = (_id) => {
+export const disabledUser = (user) => {
   return async (dispatch) => {
     dispatch({ type: userConstants.DELETE_USER_REQUEST });
-    const res = await axios.post(`/user/disabled`, _id);
+    const res = await axios.post(`/user/disabled`, user);
     if (res.status === 202) {
       dispatch({
         type: userConstants.DELETE_USER_SUCCESS,

@@ -97,6 +97,10 @@ export const productConstants = {
   UPDATE_PRODUCT_REQUEST: "UPDATE_PRODUCT_REQUEST",
   UPDATE_PRODUCT_SUCCESS: "UPDATE_PRODUCT_SUCCESS",
   UPDATE_PRODUCT_FAILURE: "UPDATE_PRODUCT_FAILURE",
+
+  UPDATE_DISCOUNT_REQUEST: "UPDATE_DISCOUNT_REQUEST",
+  UPDATE_DISCOUNT_SUCCESS: "UPDATE_DISCOUNT_SUCCESS",
+  UPDATE_DISCOUNT_FAILURE: "UPDATE_DISCOUNT_FAILURE",
 };
 
 export const orderConstants = {
@@ -110,8 +114,7 @@ export const orderConstants = {
 };
 
 // export const API_URL = "https://apisuperfreshute.herokuapp.com/api";
-// export const API_URL = "http://localhost:5000/api";
-export const API_URL = "https://superfreshdemoforbackend.vercel.app/api";
-
+export const API_URL = "http://localhost:5000/api";
+// export const API_URL = "https://superfreshdemoforbackend.vercel.app/api";
 
 // http://localhost:5000/api

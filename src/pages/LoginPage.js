@@ -34,7 +34,7 @@ const LoginPage = () => {
   }, [user, navigate, dispatch, error]);
 
   return (
-    <CheckConnection>
+    <>
       <FormContainer>
         <h1>Đăng nhập</h1>
         {loading ? (
@@ -73,7 +73,7 @@ const LoginPage = () => {
           </>
         )}
       </FormContainer>
-    </CheckConnection>
+    </>
   );
 };
 

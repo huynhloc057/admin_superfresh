@@ -18,8 +18,17 @@ import CategogyListDisablePage from "./pages/CategogyListDisablePage";
 import Order from "./pages/Order";
 import PageNotFound from "./pages/PageNotFound";
 import Statistic from "./pages/RevenuePage";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getAllProducts } from "./actions/productAction";
 
 function App() {
+  const dispatch = useDispatch();
+  //const { products } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
   return (
     <Router>
       <Header></Header>

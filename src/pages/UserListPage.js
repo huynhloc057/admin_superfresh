@@ -26,10 +26,10 @@ const UserListPage = () => {
       dispatch(getAllUsers());
     }
   }, [dispatch, user, successDelete]);
-  const deleteHandler = (_id) => {
-    console.log(_id);
+  const deleteHandler = (user) => {
+    // console.log(_id);
     if (window.confirm("Are you sure")) {
-      dispatch(disabledUser({ _id }));
+      dispatch(disabledUser(user));
     }
   };
   return (
@@ -72,7 +72,7 @@ const UserListPage = () => {
                     <Button
                       variant="danger"
                       className="btn-sm"
-                      onClick={() => deleteHandler(user._id)}
+                      onClick={() => deleteHandler(user)}
                     >
                       <i className="fas fa-trash"></i>
                     </Button>

@@ -20,6 +20,7 @@ const ProductEditPage = () => {
   const [description, setDescription] = useState("");
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [discountPercent, setDiscountPercent] = useState(0);
 
   const { slug } = useParams();
 
@@ -46,6 +47,7 @@ const ProductEditPage = () => {
       setQuantity(product.quantity);
       setDescription(product.description);
       setOldImages(product.productPictures);
+      setDiscountPercent(product.discountPercent);
     }
   }, [dispatch, slug, product, success]);
 
@@ -57,6 +59,7 @@ const ProductEditPage = () => {
     form.append("quantity", quantity);
     form.append("description", description);
     form.append("category", category);
+    form.append("discountPercent", discountPercent);
 
     for (let pic of images) {
       form.append("productPictures", pic);
@@ -168,6 +171,20 @@ const ProductEditPage = () => {
                   placeholder="Enter Quantity"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId="discountPercent" className="my-3">
+                <Form.Label>Discount Percent</Form.Label>
+                <Form.Control
+                  required
+                  type="number"
+                  placeholder="Enter discount percent"
+                  value={discountPercent}
+                  isInvalid={
+                    !(parseInt(discountPercent) > 0) && discountPercent.length
+                  }
+                  onChange={(e) => setDiscountPercent(e.target.value)}
                 ></Form.Control>
               </Form.Group>
 

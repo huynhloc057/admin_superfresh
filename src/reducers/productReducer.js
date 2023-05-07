@@ -125,6 +125,26 @@ export const productReducer = (state = initState, action) => {
         loading: false,
       };
       return state;
+    case productConstants.UPDATE_DISCOUNT_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      return state;
+    case productConstants.UPDATE_DISCOUNT_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        success: true,
+      };
+      return state;
+    case productConstants.UPDATE_DISCOUNT_FAILURE:
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+      return state;
     case productConstants.DELETE_PRODUCT_BY_ID_FAILURE:
       state = {
         ...state,
