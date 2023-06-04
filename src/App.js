@@ -18,6 +18,7 @@ import CategogyListDisablePage from "./pages/CategogyListDisablePage";
 import Order from "./pages/Order";
 import PageNotFound from "./pages/PageNotFound";
 import Statistic from "./pages/RevenuePage";
+import StatisticProduct from "./pages/StatisticProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllProducts } from "./actions/productAction";
@@ -79,6 +80,11 @@ function App() {
               ></Route>
               <Route path="/admin/orderlist" element={<Order />}></Route>
               <Route path="/admin/revenue" element={<Statistic />}></Route>
+              <Route
+                path="/admin/statisticproduct"
+                element={<StatisticProduct />}
+              ></Route>
+
               <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
             </Route>
           </Routes>
