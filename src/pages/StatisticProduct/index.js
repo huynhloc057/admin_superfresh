@@ -30,7 +30,7 @@ export default function Statistic() {
     (state) => state.product
   );
 
-  const [revenue, setRevenue] = useState(null);
+  const [revenue, setRevenue] = useState(products);
   const dispatch = useDispatch();
 
   // Fetching API when type or date changed
